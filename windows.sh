@@ -1,13 +1,17 @@
-#!/bin/bash
+if [ $# -ne 0 ]; then
+    echo "Syntax error"
+    exit 1
+fi
 
-echo " Directory of $(pwd)"
-ls -lnA --time-style='+%m/%d/%Y %I:%M %p' | awk '
-NR > 1 { 
-    filename=$9; for(i=10;i<=NF;i++) filename=filename" "$i; 
-    if (substr($1,1,1) == "d") {
-        printf "%s %s %s   <DIR>       %s\n", $6, $7, $8,    filename
-    } else if (substr($1,1,1) == "-") {
-        printf "%s %s %s %12d %s\n", $6, $7, $8, $5,   filename
-    }
-}
-'
+echo -e "\n\nDirectory of `pwd`\n"
+
+for f in *; do
+    dt=`date -r $f "+%d-%m-%Y   %H:%M:%S"`
+    
+    if [ -d "$f" ]; then
+        echo "$dt 	<DIR>   $f"
+    else
+        fs=`cat $f | wc -c`
+        echo "$dt 	$fs   $f"
+    fi
+done

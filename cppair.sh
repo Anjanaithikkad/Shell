@@ -7,6 +7,7 @@ fi
 while [ $# -ne 0 ]
 do
 cp $1 $2
+echo "Files copied.."
 shift
 shift
 done
